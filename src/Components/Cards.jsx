@@ -83,20 +83,20 @@ function Cards() {
       {filteredCourses.map((course) => (
         <div
           key={course.id}
-          className="relative w-[500px] h-[300px] rounded-2xl overflow-hidden"
+          className="group relative w-[500px] h-[300px] rounded-2xl overflow-hidden cursor-pointer transition-all duration-300 hover:scale-[1.02] hover:-translate-y-1"
         >
           {/* Background Image */}
           <img
             src={course.image}
             alt={course.title}
-            className="w-full h-full object-cover"
+            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
           />
 
           {/* Dark Overlay */}
-          <div className="absolute inset-0 bg-black/40" />
+          <div className="absolute inset-0 bg-black/20 transition duration-300 group-hover:bg-black/40" />
 
           {/* Content */}
-          <div className="absolute bottom-0 p-4 text-white w-full">
+          <div className="absolute bottom-0 p-4 text-white w-full transition-opacity duration-300 opacity-90 group-hover:opacity-100">
             <h2 className="text-sm font-medium leading-tight">
               {course.title}
             </h2>
