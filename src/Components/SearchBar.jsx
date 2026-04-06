@@ -1,22 +1,30 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { Search, X } from "lucide-react";
+import { useEffect } from "react";
 
 function SearchBar() {
-  const [query, setQuery] = useState("");
+
+  const location = useLocation();
+  const urlQuery = new URLSearchParams(location.search).get("q") || "";
+
+  const [query, setQuery] = useState(urlQuery);
   const [active, setActive] = useState(false);
   const navigate = useNavigate();
 
   const handleSearch = (e) => {
     e.preventDefault();
-    setActive(true);
-    navigate(`/search?q=${encodeURIComponent(query)}`);
+    navigate(`/about?q=${encodeURIComponent(query)}`);
   };
 
   const clearSearch = () => {
     setQuery("");
     setActive(false);
   };
+
+  useEffect(() => {
+      setQuery(urlQuery);
+  }, [urlQuery]);
 
   return (
     <div className="flex flex-col items-center mt-40">

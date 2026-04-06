@@ -1,3 +1,5 @@
+import { useLocation } from "react-router-dom";
+
 const courses = [
   {
     id: 1,
@@ -59,9 +61,26 @@ const courses = [
 ];
 
 function Cards() {
+
+    const query = new URLSearchParams(useLocation().search).get("q");
+
+    const filteredCourses = courses.filter((course) => {
+        if (!query) return true;
+
+        const searchWords = query.toLowerCase().split(" ");
+
+        const text = (
+            course.title + " " + course.tags.join(" ")
+        ).toLowerCase();
+
+        return searchWords.some((word) => text.includes(word));
+    });
+
   return (
+
+
     <div className="flex flex-col items-center gap-6 mt-10">
-      {courses.map((course) => (
+      {filteredCourses.map((course) => (
         <div
           key={course.id}
           className="relative w-[500px] h-[300px] rounded-2xl overflow-hidden"
