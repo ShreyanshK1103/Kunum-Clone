@@ -8,8 +8,12 @@ function SearchBar() {
   const location = useLocation();
   const urlQuery = new URLSearchParams(location.search).get("q") || "";
 
+  const fullText = "I want to learn....";
+
   const [query, setQuery] = useState(urlQuery);
   const [active, setActive] = useState(false);
+  const [placeholder, setPlaceholder] = useState("");
+
   const navigate = useNavigate();
 
   const handleSearch = (e) => {
@@ -26,6 +30,24 @@ function SearchBar() {
       setQuery(urlQuery);
   }, [urlQuery]);
 
+  // For the typing effect in the search bar
+  useEffect(() => {
+    let index = 0;
+    let forward = true;
+
+    const interval = setInterval(() => {
+      if (forward) {
+        setPlaceholder(fullText.slice(0, index++));
+        if (index > fullText.length) forward = false;
+      } else {
+        setPlaceholder(fullText.slice(0, index--));
+        if (index < 0) forward = true;
+      }
+  }, 80);
+
+  return () => clearInterval(interval);
+}, []);
+
   return (
     <div className="flex flex-col items-center mt-40">
       {/* Search Box */}
@@ -37,7 +59,7 @@ function SearchBar() {
 
         <input
           type="text"
-          placeholder="I want to learn..."
+          placeholder={placeholder}
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           className="bg-transparent flex-1 outline-none text-sm"
